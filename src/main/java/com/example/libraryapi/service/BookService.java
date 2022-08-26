@@ -3,6 +3,8 @@ package com.example.libraryapi.service;
 import com.example.libraryapi.model.Book;
 import com.example.libraryapi.repository.BookRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +14,10 @@ import java.util.List;
 public class BookService {
     private BookRepository bookRepository;
 
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public List<Book> getAll(int page, int size) {
+        return bookRepository
+                .findAll(PageRequest.of(page, size, Sort.by("loanNumber").descending()))
+                .toList();
     }
 
     public List<Book> saveAll(List<Book> bookList) {
