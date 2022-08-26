@@ -33,7 +33,9 @@ public class BorrowingService {
             if (book.getStatus().equals(Book.BookStatus.available)) {
                 book.setStatus(Book.BookStatus.borrowed);
                 bookRepository.save(book);
-                return borrowingRepository.save(borrowing);
+                Borrowing borrowing1 = borrowingRepository.save(borrowing);
+                borrowing1.setBook(book);
+                return borrowing1;
             } else if (book.getStatus().equals(Book.BookStatus.borrowed)) {
                 log.error("BOOK BORROWED");
                 return null;
@@ -42,7 +44,9 @@ public class BorrowingService {
             if (book.getStatus().equals(Book.BookStatus.borrowed)) {
                 book.setStatus(Book.BookStatus.available);
                 bookRepository.save(book);
-                return borrowingRepository.save(borrowing);
+                Borrowing borrowing1 = borrowingRepository.save(borrowing);
+                borrowing1.setBook(book);
+                return borrowing1;
             } else if (book.getStatus().equals(Book.BookStatus.available)) {
                 log.error("BOOK AVAILABLE");
                 return null;
