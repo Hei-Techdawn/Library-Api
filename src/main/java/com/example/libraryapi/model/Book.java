@@ -22,7 +22,7 @@ public class Book implements Serializable {
     private int pageNumber;
     @Column(nullable = false)
     private Status status;
-    @Transient
+    @Column(nullable = false)
     private Long loanNumber;
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -33,5 +33,10 @@ public class Book implements Serializable {
 
     public enum Status {
         borrowed, available
+    }
+
+    @PrePersist
+    private void createStatus() {
+        this.status = Status.available;
     }
 }
