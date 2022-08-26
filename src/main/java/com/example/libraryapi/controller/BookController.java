@@ -21,6 +21,16 @@ public class BookController {
         return bookService.getAll(page, size);
     }
 
+    @GetMapping(value = "/author/{authorId}")
+    public List<Book> getByAuthor(@PathVariable Long authorId) {
+        return bookService.getByAuthor(authorId);
+    }
+
+    @GetMapping(value = "/category/{categoryId}")
+    public List<Book> getByCategory(@PathVariable Long categoryId) {
+        return bookService.getByCategory(categoryId);
+    }
+
     @PostMapping(value = "")
     public List<Book> saveBook(@RequestBody List<Book> bookList) {
         return bookService.saveAll(bookList);

@@ -20,6 +20,14 @@ public class BookService {
                 .toList();
     }
 
+    public List<Book> getByAuthor(Long authorId) {
+        return bookRepository.findBookByAuthor_Id(authorId);
+    }
+
+    public List<Book> getByCategory(Long categoryId) {
+        return bookRepository.findBookByCategory_Id(categoryId);
+    }
+
     public List<Book> saveAll(List<Book> bookList) {
         return bookRepository.saveAll(bookList);
     }
