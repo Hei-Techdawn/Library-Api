@@ -32,6 +32,7 @@ public class BorrowingService {
         if (borrowing.getType().equals(Borrowing.BorrowingType.borrow)) {
             if (book.getStatus().equals(Book.BookStatus.available)) {
                 book.setStatus(Book.BookStatus.borrowed);
+                book.setLoanNumber(book.getLoanNumber() + 1);
                 bookRepository.save(book);
                 Borrowing borrowing1 = borrowingRepository.save(borrowing);
                 borrowing1.setBook(book);
