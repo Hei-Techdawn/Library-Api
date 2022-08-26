@@ -37,6 +37,7 @@ public class Book implements Serializable {
 
     @PrePersist
     private void createStatus() {
+        this.loanNumber = 0L;
         this.status = Status.available;
     }
 }

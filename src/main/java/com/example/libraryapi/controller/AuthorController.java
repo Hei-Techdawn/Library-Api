@@ -29,7 +29,7 @@ public class AuthorController {
     }
 
     @PostMapping(value = "")
-    public List<Author> saveAuthor(List<Author> authorList) {
+    public List<Author> saveAuthor(@RequestBody List<Author> authorList) {
         return authorService.saveAll(authorList);
     }
 
