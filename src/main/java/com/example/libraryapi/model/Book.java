@@ -21,7 +21,7 @@ public class Book implements Serializable {
     @Column(nullable = false)
     private int pageNumber;
     @Column(nullable = false)
-    private Status status;
+    private BookStatus status;
     @Column(nullable = false)
     private Long loanNumber;
     @ManyToOne
@@ -31,13 +31,13 @@ public class Book implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public enum Status {
+    public enum BookStatus {
         borrowed, available
     }
 
     @PrePersist
     private void createStatus() {
         this.loanNumber = 0L;
-        this.status = Status.available;
+        this.status = BookStatus.available;
     }
 }
