@@ -18,6 +18,11 @@ public class BorrowingController {
         return borrowingService.getAll();
     }
 
+    @GetMapping(value = "/book/{bookId}")
+    public List<Borrowing> getByBookId(@PathVariable Long bookId) {
+        return borrowingService.getByBookId(bookId);
+    }
+
     @GetMapping(value = "/{id}")
     public Borrowing getBorrowingById(@PathVariable Long id) {
         return borrowingService.getById(id);

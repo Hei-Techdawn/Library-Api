@@ -6,8 +6,9 @@ import com.example.libraryapi.repository.BookRepository;
 import com.example.libraryapi.repository.BorrowingRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -19,7 +20,11 @@ public class BorrowingService {
     private BookRepository bookRepository;
 
     public List<Borrowing> getAll() {
-        return borrowingRepository.findAll();
+        return borrowingRepository.findAll(Sort.by("date").descending());
+    }
+
+    public List<Borrowing> getByBookId(Long bookId){
+        return borrowingRepository.findAllByBook_Id(bookId);
     }
 
     public Borrowing getById(Long id) {
