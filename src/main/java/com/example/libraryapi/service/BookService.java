@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,10 +15,25 @@ import java.util.List;
 public class BookService {
     private BookRepository bookRepository;
 
-    public List<Book> getAll(int page, int size) {
-        return bookRepository
-                .findAll(PageRequest.of(page, size, Sort.by("loanNumber").descending()))
-                .toList();
+    public DataFormat<Book> getAll(int page, int size) {
+        DataFormat<Book> res = new DataFormat<>();
+        if (size > 0 && page > 0) {
+            res.setData(bookRepository.findAll(PageRequest.of(page, size, Sort.by("loanNumber").descending())).toList());
+            res.setCurrentPage(0);
+            res.setLastPage(0);
+            return res;
+        }
+        List<Book> bookList = bookRepository.findAll(Sort.by("loanNumber").descending());
+        if (size < 0) {
+            res.setData(ManualPagination.getPage(bookList, page));
+            res.setLastPage((bookList.size() / 10));
+            res.setCurrentPage(page + 1);
+        } else {
+            res.setData(bookList);
+            res.setLastPage(0);
+            res.setCurrentPage(0);
+        }
+        return res;
     }
 
     public List<Book> getByAuthor(Long authorId) {
@@ -28,6 +44,7 @@ public class BookService {
         return bookRepository.findBookByCategory_Id(categoryId);
     }
 
+    @Transactional
     public List<Book> saveAll(List<Book> bookList) {
         return bookRepository.saveAll(bookList);
     }

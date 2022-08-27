@@ -2,6 +2,7 @@ package com.example.libraryapi.controller;
 
 import com.example.libraryapi.model.Category;
 import com.example.libraryapi.service.CategoryService;
+import com.example.libraryapi.service.DataFormat;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping(value = "")
-    public List<Category> getCategory() {
+    public DataFormat<Category> getCategory() {
         return categoryService.getAll();
     }
 

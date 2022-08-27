@@ -2,6 +2,7 @@ package com.example.libraryapi.controller;
 
 import com.example.libraryapi.model.Book;
 import com.example.libraryapi.service.BookService;
+import com.example.libraryapi.service.DataFormat;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,11 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping(value = "")
-    public List<Book> getBook(
+    public DataFormat<Book> getBook(
             @RequestParam(name = "page") int page,
             @RequestParam(name = "size") int size
     ) {
-        return bookService.getAll(page, size);
+        return bookService.getAll(page - 1, size);
     }
 
     @GetMapping(value = "/author/{authorId}")

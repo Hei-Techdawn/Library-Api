@@ -5,6 +5,7 @@ import com.example.libraryapi.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -12,8 +13,12 @@ import java.util.List;
 public class CategoryService {
     private CategoryRepository categoryRepository;
 
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public DataFormat<Category> getAll() {
+        DataFormat<Category> dataFormat = new DataFormat<>();
+        dataFormat.setData(categoryRepository.findAll());
+        dataFormat.setLastPage(0);
+        dataFormat.setCurrentPage(0);
+        return dataFormat;
     }
 
     public Category getById(Long id) {
@@ -31,6 +36,7 @@ public class CategoryService {
         return categoryRepository.save(oldCategory);
     }
 
+    @Transactional
     public List<Category> saveAll(List<Category> categoryList) {
         return categoryRepository.saveAll(categoryList);
     }

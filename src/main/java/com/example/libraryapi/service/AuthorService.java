@@ -5,6 +5,7 @@ import com.example.libraryapi.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -12,12 +13,20 @@ import java.util.List;
 public class AuthorService {
     private AuthorRepository authorRepository;
 
-    public List<Author> getAll() {
-        return authorRepository.findAll();
+    public DataFormat<Author> getAll() {
+        DataFormat<Author> dataFormat = new DataFormat<>();
+        dataFormat.setLastPage(0);
+        dataFormat.setCurrentPage(0);
+        dataFormat.setData(authorRepository.findAll());
+        return dataFormat;
     }
 
     public Author getById(Long id) {
         return authorRepository.findById(id).get();
+    }
+
+    public Author getByPseudo(String pseudo) {
+        return authorRepository.findAuthorByPseudo(pseudo);
     }
 
     public Author putById(Long id, Author author) {
@@ -34,6 +43,7 @@ public class AuthorService {
         return authorRepository.save(oldAuthor);
     }
 
+    @Transactional
     public List<Author> saveAll(List<Author> authorList) {
         return authorRepository.saveAll(authorList);
     }

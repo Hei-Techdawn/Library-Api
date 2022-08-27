@@ -2,6 +2,7 @@ package com.example.libraryapi.controller;
 
 import com.example.libraryapi.model.Author;
 import com.example.libraryapi.service.AuthorService;
+import com.example.libraryapi.service.DataFormat;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +16,18 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping(value = "")
-    public List<Author> getAuthor() {
+    public DataFormat<Author> getAuthor() {
         return authorService.getAll();
     }
 
     @GetMapping(value = "/{id}")
     public Author getAuthorById(@PathVariable Long id) {
         return authorService.getById(id);
+    }
+
+    @GetMapping(value = "/pseudo")
+    public Author getAuhorByPseudo(@RequestParam(name = "pseudo") String pseudo) {
+        return authorService.getByPseudo(pseudo);
     }
 
     @PutMapping(value = "/{id}")
