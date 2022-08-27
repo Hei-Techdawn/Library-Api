@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/borrowing")
+@CrossOrigin(origins = "*")
 public class BorrowingController {
     private BorrowingService borrowingService;
 

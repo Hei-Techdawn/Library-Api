@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/author")
+@CrossOrigin(origins = "*")
 public class AuthorController {
     private AuthorService authorService;
 

@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/book")
+@CrossOrigin(origins = "*")
 public class BookController {
     private BookService bookService;
 
