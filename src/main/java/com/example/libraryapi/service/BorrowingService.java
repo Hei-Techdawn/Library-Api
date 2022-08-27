@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,12 +20,32 @@ public class BorrowingService {
     private BorrowingRepository borrowingRepository;
     private BookRepository bookRepository;
 
-    public List<Borrowing> getAll() {
+    public List<Borrowing> getAll(String borrowingType) {
+        if (borrowingType != null) {
+            if (borrowingType.equals("borrow") || borrowingType.equals("make")) {
+                return borrow(borrowingRepository.findAll(Sort.by("date").descending()), borrowingType);
+            }
+        }
         return borrowingRepository.findAll(Sort.by("date").descending());
     }
 
-    public List<Borrowing> getByBookId(Long bookId){
-        return borrowingRepository.findAllByBook_Id(bookId);
+    public List<Borrowing> getByBookId(Long bookId, String borrowingType) {
+        if (borrowingType != null) {
+            if (borrowingType.equals("borrow") || borrowingType.equals("make")) {
+                return borrow(borrowingRepository.findAllByBook_IdOrderByDateDesc(bookId), borrowingType);
+            }
+        }
+        return borrowingRepository.findAllByBook_IdOrderByDateDesc(bookId);
+    }
+
+    public List<Borrowing> borrow(List<Borrowing> borrowingList, String borrowingType) {
+        List<Borrowing> borrowings = new ArrayList<>();
+        for (Borrowing borrowing : borrowingList) {
+            if (String.valueOf(borrowing.getType()).equals(borrowingType)) {
+                borrowings.add(borrowing);
+            }
+        }
+        return borrowings;
     }
 
     public Borrowing getById(Long id) {

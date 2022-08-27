@@ -15,13 +15,16 @@ public class BorrowingController {
     private BorrowingService borrowingService;
 
     @GetMapping(value = "")
-    public List<Borrowing> getBorrowing() {
-        return borrowingService.getAll();
+    public List<Borrowing> getBorrowing(@RequestParam(name = "type",required = false) String type) {
+        return borrowingService.getAll(type);
     }
 
     @GetMapping(value = "/book/{bookId}")
-    public List<Borrowing> getByBookId(@PathVariable Long bookId) {
-        return borrowingService.getByBookId(bookId);
+    public List<Borrowing> getByBookId(
+            @PathVariable Long bookId,
+            @RequestParam(name = "type",required = false) String type
+    ) {
+        return borrowingService.getByBookId(bookId,type);
     }
 
     @GetMapping(value = "/{id}")
